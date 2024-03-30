@@ -17,6 +17,7 @@ import { RolesGuard } from './common/guard/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { CategoryModule } from './category/category.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { ChatModule } from './chat/chat.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -45,6 +46,7 @@ import { MulterModule } from '@nestjs/platform-express';
     AuthModule,
     PaymentModule,
     CategoryModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService, PaymentService, MailingService,  {
