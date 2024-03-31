@@ -116,12 +116,19 @@ export class AuthService {
             User: user,
           };
         } else {
-          return 'INCORRECT CREDENTIAL';
+          throw new Error('INCORRECT CREDENTIAL')
+      
         }
       }
-      return 'USER NOT VERIFIED';
+      throw new Error('USER NOT FOUND')
     } catch (e) {
-      return 'INCORRECT CREDENTIAL';
+      console.log(e.message)
+      throw new HttpException({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error: e.message,
+      }, HttpStatus.INTERNAL_SERVER_ERROR, {
+        cause: e.message
+      });;
     }
   }
 

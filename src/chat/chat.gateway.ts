@@ -18,10 +18,18 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.logger.log(`Socket disconnected`);
   }
   @SubscribeMessage('send_message')
-  hanleMessage(@MessageBody() message: string) {
-    this.logger.log('message recieved', message);
-    this.server.emit('chat', 'Sending message which is broadcast');
-    // return this.chatService.create(message);
+ async hanleMessage(@MessageBody() message_data: { content: string, senderId: number, threadId: number }) {
+    this.logger.log('message recieved', message_data);
+
+
+   const chat= await this.chatService.createMessage(message_data);
+   if(!chat){
+    this.server.emit(`new-message-${message_data.threadId}`, 'Message was not saved');
+    return
+   }
+    this.server.emit(`new-message-${message_data.threadId}`, chat);
+
+    return
   }
  
   @SubscribeMessage('create_thread')

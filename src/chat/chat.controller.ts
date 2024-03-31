@@ -18,11 +18,15 @@ import { createthreadDTO } from './dto/create-thread.dto';
     constructor(private readonly _chatService: ChatService) {}
 
     @Post()
-    async createThread(@Body() createthreadDTO: createthreadDTO) {
+     createThread(@Body() createthreadDTO: createthreadDTO) {
+      console.log("JEREE")
         return this._chatService.createThread(createthreadDTO);
       }
     @Get(':id')
-    getThreadById() {}
+    getThreadById(@Param('id') id: string) {
+      console.log("HERE")
+      return this._chatService.getThreadMessages(+id);
+    }
     @Get()
     getAllThreads() {}
   }
