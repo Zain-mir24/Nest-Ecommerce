@@ -12,6 +12,7 @@ import {
   } from '@nestjs/common';
   import { ChatService } from './chat.service';
 import { createthreadDTO } from './dto/create-thread.dto';
+import { PageOptionsDto } from 'src/common/dtos';
 
   @Controller('chat')
   export class ChatController {
@@ -28,5 +29,7 @@ import { createthreadDTO } from './dto/create-thread.dto';
       return this._chatService.getThreadMessages(+id);
     }
     @Get()
-    getAllThreads() {}
+    getAllThreads(@Query() pageOptionsDto: PageOptionsDto) {
+      return this._chatService.getAllThread(pageOptionsDto)
+    }
   }

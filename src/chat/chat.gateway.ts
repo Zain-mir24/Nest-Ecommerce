@@ -18,7 +18,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.logger.log(`Socket disconnected`);
   }
   @SubscribeMessage('send_message')
- async hanleMessage(@MessageBody() message_data: { content: string, senderId: number, threadId: number }) {
+    async hanleMessage(@MessageBody() message_data: { content: string, senderId: number, threadId: number }) {
     this.logger.log('message recieved', message_data);
 
 

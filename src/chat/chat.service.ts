@@ -7,6 +7,11 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Logger } from '@nestjs/common';
 import { Exception } from 'handlebars';
+import { PageOptionsDto } from 'src/common/dtos';
+import { productDto } from 'src/Products/dtos/Products.dto';
+import { PageDto } from 'src/common/page.dto';
+import { PageMetaDto } from 'src/common/page.meta.dto';
+import { threadDto } from './dto/thread.dto';
 @Injectable()
 export class ChatService {
   private logger = new Logger('ChatService');
@@ -57,11 +62,32 @@ export class ChatService {
     }
   }
 
-  async getAllThread() {
-    try {
-      let getData = await this.threadRepository.find();
-    } catch (e) {}
+  
+  async getAllThread(
+    pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<threadDto>> {
+    const skip = (pageOptionsDto.page - 1) * pageOptionsDto.pageSize;
+    let searchCondition: string;
+    if (pageOptionsDto.search) {
+      searchCondition = `product.title ILIKE %${pageOptionsDto.search}%`;
+    }
+   
+    const all_chats=await this.threadRepository.createQueryBuilder('thread').orderBy('thread.Tid', pageOptionsDto.order === 'DESC' ? 'DESC' : 'ASC').offset(skip).limit(pageOptionsDto.pageSize)
+
+
+    console.log("THREAD")
+    const threads = await all_chats.getMany();
+    const itemCountQuery = `SELECT COUNT(*) FROM thread`;
+
+    const itemCountResult = await this.threadRepository.query(itemCountQuery);
+
+    const itemCount = itemCountResult[0].count;
+
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+
+    return new PageDto(threads, pageMetaDto);
   }
+
 
   async getThreadMessages(threadId: number) {
     try {
