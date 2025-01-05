@@ -18,7 +18,8 @@ type ProductDetails = {
 };
 
 type UserDetails = {
-  username: string;
+  firstname: string;
+  lastname:string;
   email: string;
   phone_no: string;
 };

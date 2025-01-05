@@ -105,7 +105,8 @@ export class OrdersService {
     try {
       let result: OrderResponse = {
         user: {
-          username: '',
+          firstname: '',
+          lastname:'',
           email: '',
           phone_no: '',
         },
@@ -132,7 +133,8 @@ export class OrdersService {
       ]);
 
       result.user = {
-        username: userData?.username,
+        firstname: userData?.firstname,
+        lastname: userData?.lastname,
         email: userData?.email,
         phone_no: userData?.phone_no,
       };

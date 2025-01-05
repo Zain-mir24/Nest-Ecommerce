@@ -18,7 +18,8 @@ export class UsersService {
   ) {}
   async create(createUserDto: CreateUserDto): Promise<any> {
     const {
-      username,
+      firstname,
+      lastname,
       password,
       email,
       phone_no,
@@ -32,8 +33,8 @@ export class UsersService {
     });
     let userData = checkEmail;
     console.log(checkEmail);
-    console.log(username, email);
-    if (username === '' || password === '' || email === '') {
+    console.log(firstname, email);
+    if (firstname === '' || lastname === ''|| password === '' || email === '') {
       throw new Error('Empty values are not accepted');
     }
     if (checkEmail && checkEmail.verified) {
@@ -54,7 +55,8 @@ export class UsersService {
 
       const user = new User();
 
-      user.username = username;
+      user.firstname = firstname;
+      user.lastname = lastname;
 
       user.password = hashedPassword;
 

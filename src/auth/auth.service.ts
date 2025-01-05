@@ -33,8 +33,7 @@ export class AuthService {
         { expiresIn: '17h' },
       );
 
-      userData.accessToken = accessToken;
-      userData.refreshToken = refreshToken;
+
 
       await this.usersService.create(userData);
 
